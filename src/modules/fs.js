@@ -1,7 +1,6 @@
 import fsPromises from "node:fs/promises";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
-import { handleInvalidOperation } from "./utils.js";
 
 const getDirectoryEntryType = (dirEntry) => {
   if (dirEntry.isFile()) {
@@ -14,74 +13,50 @@ const getDirectoryEntryType = (dirEntry) => {
 };
 
 export const moveUpDirectory = async () => {
-  try {
-    const parentDirPath = path.dirname(process.cwd());
+  const parentDirPath = path.dirname(process.cwd());
 
-    changeDirectory(parentDirPath);
-  } catch {
-    handleInvalidOperation();
-  }
+  changeDirectory(parentDirPath);
 };
 
 export const changeDirectory = async (dirPath) => {
-  try {
-    process.chdir(dirPath);
-  } catch {
-    handleInvalidOperation();
-  }
+  process.chdir(dirPath);
 };
 
 export const listDirectoryContents = async (dir) => {
-  try {
-    const dirEnts = await fsPromises.readdir(dir, { withFileTypes: true });
-    const tabularData = dirEnts
-      .map((dirEntry) => ({
-        Name: dirEntry.name,
-        Type: getDirectoryEntryType(dirEntry),
-      }))
-      .filter((dirEntry) => dirEntry.Type !== "other")
-      .sort((dirEntryA, dirEntryB) => {
-        if (dirEntryA.Type === dirEntryB.Type) {
-          return dirEntryA.Name.localeCompare(dirEntryB.Name);
-        }
+  const dirEnts = await fsPromises.readdir(dir, { withFileTypes: true });
+  const tabularData = dirEnts
+    .map((dirEntry) => ({
+      Name: dirEntry.name,
+      Type: getDirectoryEntryType(dirEntry),
+    }))
+    .filter((dirEntry) => dirEntry.Type !== "other")
+    .sort((dirEntryA, dirEntryB) => {
+      if (dirEntryA.Type === dirEntryB.Type) {
+        return dirEntryA.Name.localeCompare(dirEntryB.Name);
+      }
 
-        return dirEntryA.Type === "directory" ? -1 : 1;
-      });
+      return dirEntryA.Type === "directory" ? -1 : 1;
+    });
 
-    console.table(tabularData);
-  } catch {
-    handleInvalidOperation();
-  }
+  console.table(tabularData);
 };
 
 export const createFile = async (filePath) => {
-  try {
-    await fsPromises.writeFile(filePath, "");
-  } catch {
-    handleInvalidOperation();
-  }
+  await fsPromises.writeFile(filePath, "");
 };
 
 export const removeFile = async (filePath) => {
-  try {
-    const fileStat = await fsPromises.stat(filePath);
+  const fileStat = await fsPromises.stat(filePath);
 
-    if (!fileStat.isFile()) {
-      throw new Error();
-    }
-
-    await fsPromises.rm(filePath);
-  } catch {
-    handleInvalidOperation();
+  if (!fileStat.isFile()) {
+    throw new Error();
   }
+
+  await fsPromises.rm(filePath);
 };
 
 export const renameFile = async (srcFilePath, destFilePath) => {
-  try {
-    await fsPromises.rename(srcFilePath, destFilePath);
-  } catch {
-    handleInvalidOperation();
-  }
+  await fsPromises.rename(srcFilePath, destFilePath);
 };
 
 export const catFile = async (filePath) => {
@@ -101,9 +76,9 @@ export const catFile = async (filePath) => {
         throw new Error();
       });
     });
-  } catch {
+  } catch (err) {
     fh?.close();
-    handleInvalidOperation();
+    throw err;
   }
 };
 
@@ -118,18 +93,14 @@ export const copyFile = async (srcFilePath, destDirPath) => {
     const writeStream = destFh.createWriteStream();
 
     await pipeline(readStream, writeStream);
-  } catch {
+  } catch (err) {
     srcFh?.close();
     destFh?.close();
-    handleInvalidOperation();
+    throw err;
   }
 };
 
 export const moveFile = async (srcFilePath, destDirPath) => {
-  try {
-    await copyFile(srcFilePath, destDirPath);
-    await removeFile(srcFilePath);
-  } catch {
-    handleInvalidOperation();
-  }
+  await copyFile(srcFilePath, destDirPath);
+  await removeFile(srcFilePath);
 };
