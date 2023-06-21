@@ -1,0 +1,13 @@
+{
+  "name": "filemanager",
+  "version": "1.0.0",
+  "description": "RS School NodeJS 2023 Q2 - Week 2 Task",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/index.js"
+  },
+  "keywords": [],
+  "author": "Sergey Koksharov <gentoosiastic@gmail.com>",
+  "license": "ISC"
+}
