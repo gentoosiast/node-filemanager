@@ -1,4 +1,5 @@
 import fsPromises from "node:fs/promises";
+import path from "node:path";
 import { pipeline } from "node:stream/promises";
 import { handleInvalidOperation } from "./utils.js";
 
@@ -10,6 +11,16 @@ const getDirectoryEntryType = (dirEntry) => {
   }
 
   return "other";
+};
+
+export const moveUpDirectory = async () => {
+  try {
+    const parentDirPath = path.dirname(process.cwd());
+
+    changeDirectory(parentDirPath);
+  } catch {
+    handleInvalidOperation();
+  }
 };
 
 export const changeDirectory = async (dirPath) => {

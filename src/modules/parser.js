@@ -1,5 +1,6 @@
 import path from "node:path";
 import {
+  moveUpDirectory,
   changeDirectory,
   listDirectoryContents,
   createFile,
@@ -19,7 +20,12 @@ export const parseCommand = async (line) => {
 
   switch (args[0]) {
     case "up": {
-      console.log("Not implemented yet: up");
+      if (args.length !== 1) {
+        handleInvalidInput();
+        break;
+      }
+
+      await moveUpDirectory();
       break;
     }
 
