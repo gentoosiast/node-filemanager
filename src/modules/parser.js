@@ -12,6 +12,7 @@ import {
 } from "./fs.js";
 import { calculateHash } from "./hash.js";
 import { processFileWithBrotli } from "./brotli.js";
+import { dispatchOSOperation } from "./osOperations.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
@@ -122,7 +123,20 @@ export const parseCommand = async (line) => {
     }
 
     case "os": {
-      console.log("Not implemented yet: os");
+      const supportedOperations = [
+        "--EOL",
+        "--cpus",
+        "--homedir",
+        "--username",
+        "--architecture",
+      ];
+
+      if (args.length !== 2 || !supportedOperations.includes(args[1])) {
+        handleInvalidInput();
+        break;
+      }
+
+      dispatchOSOperation(args[1]);
       break;
     }
 
