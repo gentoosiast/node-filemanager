@@ -63,3 +63,24 @@ export const renameFile = async (srcFilePath, destFilePath) => {
     handleInvalidOperation();
   }
 };
+
+export const catFile = async (filePath) => {
+  try {
+    const fh = await fsPromises.open(filePath);
+    const readStream = fh.createReadStream({ encoding: "utf8" });
+
+    await new Promise((resolve) => {
+      readStream.on("data", (data) => console.log(data));
+      readStream.on("end", async () => {
+        await fh.close();
+        resolve();
+      });
+      readStream.on("error", async () => {
+        await fh.close();
+        throw new Error();
+      });
+    });
+  } catch {
+    handleInvalidOperation();
+  }
+};

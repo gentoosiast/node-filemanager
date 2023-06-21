@@ -4,6 +4,7 @@ import {
   createFile,
   removeFile,
   renameFile,
+  catFile,
 } from "./fs.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
@@ -36,7 +37,13 @@ export const parseCommand = async (line) => {
     }
 
     case "cat": {
-      console.log("Not implemented yet: cat");
+      if (args.length !== 2) {
+        handleInvalidInput();
+        break;
+      }
+
+      const filePath = path.resolve(process.cwd(), args[1]);
+      await catFile(filePath);
       break;
     }
 
