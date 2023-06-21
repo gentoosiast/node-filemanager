@@ -85,8 +85,9 @@ export const renameFile = async (srcFilePath, destFilePath) => {
 };
 
 export const catFile = async (filePath) => {
+  let fh = null;
   try {
-    const fh = await fsPromises.open(filePath);
+    fh = await fsPromises.open(filePath);
     const readStream = fh.createReadStream({ encoding: "utf8" });
 
     await new Promise((resolve) => {
@@ -101,20 +102,25 @@ export const catFile = async (filePath) => {
       });
     });
   } catch {
+    fh?.close();
     handleInvalidOperation();
   }
 };
 
 export const copyFile = async (srcFilePath, destDirPath) => {
+  let srcFh = null;
+  let destFh = null;
   try {
     const destFilePath = path.resolve(destDirPath, path.basename(srcFilePath));
-    const srcFh = await fsPromises.open(srcFilePath);
-    const destFh = await fsPromises.open(destFilePath, "w");
+    srcFh = await fsPromises.open(srcFilePath);
+    destFh = await fsPromises.open(destFilePath, "w");
     const readStream = srcFh.createReadStream();
     const writeStream = destFh.createWriteStream();
 
     await pipeline(readStream, writeStream);
   } catch {
+    srcFh?.close();
+    destFh?.close();
     handleInvalidOperation();
   }
 };
