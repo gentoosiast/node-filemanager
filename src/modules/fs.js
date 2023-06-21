@@ -41,3 +41,17 @@ export const createFile = async (filePath) => {
     handleInvalidOperation();
   }
 };
+
+export const removeFile = async (filePath) => {
+  try {
+    const fileStat = await fsPromises.stat(filePath);
+
+    if (!fileStat.isFile()) {
+      throw new Error();
+    }
+
+    await fsPromises.rm(filePath);
+  } catch {
+    handleInvalidOperation();
+  }
+};
