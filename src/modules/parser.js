@@ -4,6 +4,7 @@ import {
   changeDirectory,
   listDirectoryContents,
   createFile,
+  moveFile,
   removeFile,
   renameFile,
   catFile,
@@ -96,7 +97,14 @@ export const parseCommand = async (line) => {
     }
 
     case "mv": {
-      console.log("Not implemented yet: mv");
+      if (args.length !== 3) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[1]);
+      const destDirPath = path.resolve(process.cwd(), args[2]);
+      await moveFile(srcFilePath, destDirPath);
       break;
     }
 

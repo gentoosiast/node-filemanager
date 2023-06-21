@@ -118,3 +118,12 @@ export const copyFile = async (srcFilePath, destDirPath) => {
     handleInvalidOperation();
   }
 };
+
+export const moveFile = async (srcFilePath, destDirPath) => {
+  try {
+    await copyFile(srcFilePath, destDirPath);
+    await removeFile(srcFilePath);
+  } catch {
+    handleInvalidOperation();
+  }
+};
