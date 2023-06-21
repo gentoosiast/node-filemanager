@@ -90,8 +90,8 @@ export const parseCommand = async (line) => {
       }
 
       const srcFilePath = path.resolve(process.cwd(), args[1]);
-      const destFilePath = path.resolve(process.cwd(), args[2]);
-      await copyFile(srcFilePath, destFilePath);
+      const destDirPath = path.resolve(process.cwd(), args[2]);
+      await copyFile(srcFilePath, destDirPath);
       break;
     }
 

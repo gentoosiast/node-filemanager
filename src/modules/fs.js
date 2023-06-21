@@ -105,8 +105,9 @@ export const catFile = async (filePath) => {
   }
 };
 
-export const copyFile = async (srcFilePath, destFilePath) => {
+export const copyFile = async (srcFilePath, destDirPath) => {
   try {
+    const destFilePath = path.resolve(destDirPath, path.basename(srcFilePath));
     const srcFh = await fsPromises.open(srcFilePath);
     const destFh = await fsPromises.open(destFilePath, "w");
     const readStream = srcFh.createReadStream();
