@@ -1,5 +1,6 @@
 import path from "node:path";
 import {
+  changeDirectory,
   listDirectoryContents,
   createFile,
   removeFile,
@@ -23,7 +24,12 @@ export const parseCommand = async (line) => {
     }
 
     case "cd": {
-      console.log("Not implemented yet: cd");
+      if (args.length !== 2) {
+        handleInvalidInput();
+        break;
+      }
+
+      changeDirectory(args[1]);
       break;
     }
 

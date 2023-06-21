@@ -12,6 +12,14 @@ const getDirectoryEntryType = (dirEntry) => {
   return "other";
 };
 
+export const changeDirectory = async (dirPath) => {
+  try {
+    process.chdir(dirPath);
+  } catch {
+    handleInvalidOperation();
+  }
+};
+
 export const listDirectoryContents = async (dir) => {
   try {
     const dirEnts = await fsPromises.readdir(dir, { withFileTypes: true });
