@@ -1,9 +1,9 @@
-import readlinePromises from "node:readline/promises";
+import readline from "node:readline";
 import { printWorkingDirectory } from "./workdir.js";
 import { parseCommand } from "./parser.js";
 
 export const startCLI = () => {
-  const rl = readlinePromises.createInterface({
+  const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
