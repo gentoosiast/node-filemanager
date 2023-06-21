@@ -1,6 +1,8 @@
+import { listDirectoryContents } from "./fs.js";
+
 const handleInvalidInput = () => console.error("Invalid input");
 
-export const parseCommand = (line) => {
+export const parseCommand = async (line) => {
   const args = line
     .trim()
     .split(" ")
@@ -18,7 +20,12 @@ export const parseCommand = (line) => {
     }
 
     case "ls": {
-      console.log("Not implemented yet: ls");
+      if (args.length > 1) {
+        handleInvalidInput();
+        break;
+      }
+
+      await listDirectoryContents(process.cwd());
       break;
     }
 

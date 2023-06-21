@@ -9,3 +9,5 @@ export const getUsernameFromArgs = () => {
 
   return usernameArg.split("=")[1] || DEFAULT_USERNAME;
 };
+
+export const handleInvalidOperation = () => console.error("Operation failed");

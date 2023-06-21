@@ -9,8 +9,8 @@ export const startCLI = () => {
   });
 
   rl.prompt();
-  rl.on("line", (line) => {
-    parseCommand(line);
+  rl.on("line", async (line) => {
+    await parseCommand(line);
     printWorkingDirectory();
     rl.prompt();
   });
