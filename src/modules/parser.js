@@ -11,6 +11,7 @@ import {
   copyFile,
 } from "./fs.js";
 import { calculateHash } from "./hash.js";
+import { processFileWithBrotli } from "./brotli.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
@@ -137,12 +138,28 @@ export const parseCommand = async (line) => {
     }
 
     case "compress": {
-      console.log("Not implemented yet: compress");
+      if (args.length !== 3) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[1]);
+      const destFilePath = path.resolve(process.cwd(), args[2]);
+
+      await processFileWithBrotli(srcFilePath, destFilePath, "compress");
       break;
     }
 
     case "decompress": {
-      console.log("Not implemented yet: decompress");
+      if (args.length !== 3) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[1]);
+      const destFilePath = path.resolve(process.cwd(), args[2]);
+
+      await processFileWithBrotli(srcFilePath, destFilePath, "decompress");
       break;
     }
 
