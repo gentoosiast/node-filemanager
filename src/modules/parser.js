@@ -1,5 +1,10 @@
 import path from "node:path";
-import { listDirectoryContents, createFile, removeFile } from "./fs.js";
+import {
+  listDirectoryContents,
+  createFile,
+  removeFile,
+  renameFile,
+} from "./fs.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
@@ -47,7 +52,14 @@ export const parseCommand = async (line) => {
     }
 
     case "rn": {
-      console.log("Not implemented yet: rn");
+      if (args.length !== 3) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[1]);
+      const destFilePath = path.resolve(process.cwd(), args[2]);
+      await renameFile(srcFilePath, destFilePath);
       break;
     }
 

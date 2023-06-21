@@ -55,3 +55,11 @@ export const removeFile = async (filePath) => {
     handleInvalidOperation();
   }
 };
+
+export const renameFile = async (srcFilePath, destFilePath) => {
+  try {
+    await fsPromises.rename(srcFilePath, destFilePath);
+  } catch {
+    handleInvalidOperation();
+  }
+};
