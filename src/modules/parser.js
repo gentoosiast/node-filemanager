@@ -10,6 +10,7 @@ import {
   catFile,
   copyFile,
 } from "./fs.js";
+import { calculateHash } from "./hash.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
@@ -125,7 +126,13 @@ export const parseCommand = async (line) => {
     }
 
     case "hash": {
-      console.log("Not implemented yet: hash");
+      if (args.length !== 2) {
+        handleInvalidInput();
+        break;
+      }
+
+      const filePath = path.resolve(process.cwd(), args[1]);
+      await calculateHash(filePath);
       break;
     }
 
