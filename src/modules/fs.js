@@ -1,4 +1,5 @@
 import fsPromises from "node:fs/promises";
+import { pipeline } from "node:stream/promises";
 import { handleInvalidOperation } from "./utils.js";
 
 const getDirectoryEntryType = (dirEntry) => {
@@ -80,6 +81,19 @@ export const catFile = async (filePath) => {
         throw new Error();
       });
     });
+  } catch {
+    handleInvalidOperation();
+  }
+};
+
+export const copyFile = async (srcFilePath, destFilePath) => {
+  try {
+    const srcFh = await fsPromises.open(srcFilePath);
+    const destFh = await fsPromises.open(destFilePath, "w");
+    const readStream = srcFh.createReadStream();
+    const writeStream = destFh.createWriteStream();
+
+    await pipeline(readStream, writeStream);
   } catch {
     handleInvalidOperation();
   }

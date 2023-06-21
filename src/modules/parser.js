@@ -5,6 +5,7 @@ import {
   removeFile,
   renameFile,
   catFile,
+  copyFile,
 } from "./fs.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
@@ -71,7 +72,14 @@ export const parseCommand = async (line) => {
     }
 
     case "cp": {
-      console.log("Not implemented yet: cp");
+      if (args.length !== 3) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[1]);
+      const destFilePath = path.resolve(process.cwd(), args[2]);
+      await copyFile(srcFilePath, destFilePath);
       break;
     }
 
