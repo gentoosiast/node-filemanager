@@ -1,13 +1,10 @@
 import { sayHi, sayBye } from "./modules/greet.js";
-import {
-  setStartingWorkingDirectory,
-  printWorkingDirectory,
-} from "./modules/workdir.js";
-
-console.clear();
-sayHi();
+import { setStartingWorkingDirectory } from "./modules/workdir.js";
+import { startCLI } from "./modules/readline.js";
 
 setStartingWorkingDirectory();
-printWorkingDirectory();
+console.clear();
+sayHi();
+startCLI();
 
 process.on("exit", sayBye);
