@@ -61,6 +61,7 @@ export const renameFile = async (srcFilePath, destFilePath) => {
 
 export const catFile = async (filePath) => {
   let fh = null;
+
   try {
     fh = await fsPromises.open(filePath);
     const readStream = fh.createReadStream({ encoding: "utf8" });
@@ -85,6 +86,7 @@ export const catFile = async (filePath) => {
 export const copyFile = async (srcFilePath, destDirPath) => {
   let srcFh = null;
   let destFh = null;
+
   try {
     const destFilePath = path.resolve(destDirPath, path.basename(srcFilePath));
     srcFh = await fsPromises.open(srcFilePath);
