@@ -1,4 +1,5 @@
-import { listDirectoryContents } from "./fs.js";
+import path from "node:path";
+import { listDirectoryContents, createFile } from "./fs.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
@@ -35,7 +36,13 @@ export const parseCommand = async (line) => {
     }
 
     case "add": {
-      console.log("Not implemented yet: add");
+      if (args.length !== 2) {
+        handleInvalidInput();
+        break;
+      }
+
+      const filePath = path.resolve(process.cwd(), args[1]);
+      await createFile(filePath);
       break;
     }
 

@@ -6,9 +6,9 @@ const getDirectoryEntryType = (dirEntry) => {
     return "file";
   } else if (dirEntry.isDirectory()) {
     return "directory";
-  } else {
-    return "other";
   }
+
+  return "other";
 };
 
 export const listDirectoryContents = async (dir) => {
@@ -29,6 +29,14 @@ export const listDirectoryContents = async (dir) => {
       });
 
     console.table(tabularData);
+  } catch {
+    handleInvalidOperation();
+  }
+};
+
+export const createFile = async (filePath) => {
+  try {
+    await fsPromises.writeFile(filePath, "");
   } catch {
     handleInvalidOperation();
   }
