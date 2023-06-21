@@ -1,3 +1,4 @@
+import { EOL } from "node:os";
 import readline from "node:readline";
 import { printWorkingDirectory } from "./workdir.js";
 import { parseCommand } from "./parser.js";
@@ -14,4 +15,5 @@ export const startCLI = () => {
     printWorkingDirectory();
     rl.prompt();
   });
+  rl.on("close", () => console.log(EOL));
 };
