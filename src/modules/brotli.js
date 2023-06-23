@@ -22,9 +22,8 @@ export const processFileWithBrotli = async (
         : createBrotliDecompress();
 
     await pipeline(readStream, brotliProcessor, writeStream);
-  } catch (err) {
+  } finally {
     srcFh?.close();
     destFh?.close();
-    throw err;
   }
 };

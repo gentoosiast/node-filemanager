@@ -77,9 +77,8 @@ export const catFile = async (filePath) => {
         throw new Error();
       });
     });
-  } catch (err) {
+  } finally {
     fh?.close();
-    throw err;
   }
 };
 
@@ -95,10 +94,9 @@ export const copyFile = async (srcFilePath, destDirPath) => {
     const writeStream = destFh.createWriteStream();
 
     await pipeline(readStream, writeStream);
-  } catch (err) {
+  } finally {
     srcFh?.close();
     destFh?.close();
-    throw err;
   }
 };
 

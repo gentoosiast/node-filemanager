@@ -21,8 +21,7 @@ export const calculateHash = async (filePath) => {
         }
       });
     });
-  } catch (err) {
+  } finally {
     fh?.close();
-    throw err;
   }
 };
