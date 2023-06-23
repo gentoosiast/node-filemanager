@@ -5,7 +5,7 @@ const MHzinGHz = 1000;
 export const dispatchOSOperation = (operation) => {
   switch (operation) {
     case "--EOL": {
-      console.log(os.EOL);
+      console.log(JSON.stringify(os.EOL));
       break;
     }
 
