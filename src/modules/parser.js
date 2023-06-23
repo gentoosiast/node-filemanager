@@ -44,7 +44,7 @@ export const parseCommand = async (line) => {
     }
 
     case "ls": {
-      if (args.length > 1) {
+      if (args.length !== 1) {
         handleInvalidInput();
         break;
       }
