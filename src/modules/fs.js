@@ -12,13 +12,13 @@ const getDirectoryEntryType = (dirEntry) => {
   return "other";
 };
 
-export const moveUpDirectory = async () => {
+export const moveUpDirectory = () => {
   const parentDirPath = path.dirname(process.cwd());
 
   changeDirectory(parentDirPath);
 };
 
-export const changeDirectory = async (dirPath) => {
+export const changeDirectory = (dirPath) => {
   process.chdir(dirPath);
 };
 
