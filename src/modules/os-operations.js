@@ -20,11 +20,7 @@ export const dispatchOSOperation = (operation) => {
       cpuInfo.forEach((cpu, idx) => {
         console.log(`CPU №${idx + 1}`);
         console.log(`CPU Model: ${cpu.model}`);
-        console.log(`CPU Clock Rate: ${cpu.clockRate} GHz`);
-
-        if (idx !== cpuInfo.length - 1) {
-          console.log();
-        }
+        console.log(`CPU Clock Rate: ${cpu.clockRate} GHz${os.EOL}`);
       });
       break;
     }
