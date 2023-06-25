@@ -176,7 +176,7 @@ export const dispatchCommand = async (line) => {
     }
 
     case ".exit": {
-      process.exit(0);
+      process.exit();
     }
 
     default: {
