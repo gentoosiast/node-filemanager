@@ -12,11 +12,11 @@ import {
 } from "./fs.js";
 import { calculateHash } from "./hash.js";
 import { processFileWithBrotli } from "./brotli.js";
-import { dispatchOSOperation } from "./osOperations.js";
+import { dispatchOSOperation } from "./os-operations.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
-export const parseCommand = async (line) => {
+export const dispatchCommand = async (line) => {
   const args = line
     .trim()
     .split(" ")

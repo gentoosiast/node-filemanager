@@ -1,7 +1,7 @@
 import { EOL } from "node:os";
 import readline from "node:readline";
 import { printWorkingDirectory } from "./workdir.js";
-import { parseCommand } from "./parser.js";
+import { dispatchCommand } from "./cmd-dispatcher.js";
 import { handleInvalidOperation } from "./utils.js";
 
 export const startCLI = () => {
@@ -13,7 +13,7 @@ export const startCLI = () => {
   rl.prompt();
   rl.on("line", async (line) => {
     try {
-      await parseCommand(line);
+      await dispatchCommand(line);
     } catch {
       handleInvalidOperation();
     }
