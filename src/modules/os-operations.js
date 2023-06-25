@@ -1,6 +1,6 @@
 import os from "node:os";
 
-const MHzinGHz = 1000;
+const MHZ_IN_GHZ = 1000;
 
 export const dispatchOSOperation = (operation) => {
   switch (operation) {
@@ -12,7 +12,7 @@ export const dispatchOSOperation = (operation) => {
     case "--cpus": {
       const cpuInfo = os.cpus().map((cpuEntry) => ({
         model: cpuEntry.model,
-        clockRate: cpuEntry.speed / MHzinGHz,
+        clockRate: cpuEntry.speed / MHZ_IN_GHZ,
       }));
 
       console.log(`Total number of CPUs: ${cpuInfo.length}${os.EOL}`);
