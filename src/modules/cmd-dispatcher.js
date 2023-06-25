@@ -17,6 +17,14 @@ import { dispatchOSOperation } from "./os-operations.js";
 
 const handleInvalidInput = () => console.error("Invalid input");
 
+const supportedOSOperations = [
+  "--EOL",
+  "--cpus",
+  "--homedir",
+  "--username",
+  "--architecture",
+];
+
 export const dispatchCommand = async (line) => {
   const [cmd, ...args] = parseLine(line);
 
@@ -121,15 +129,7 @@ export const dispatchCommand = async (line) => {
     }
 
     case "os": {
-      const supportedOperations = [
-        "--EOL",
-        "--cpus",
-        "--homedir",
-        "--username",
-        "--architecture",
-      ];
-
-      if (args.length !== 1 || !supportedOperations.includes(args[0])) {
+      if (args.length !== 1 || !supportedOSOperations.includes(args[0])) {
         handleInvalidInput();
         break;
       }
