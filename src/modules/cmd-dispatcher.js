@@ -1,4 +1,5 @@
 import path from "node:path";
+import { parseLine } from "./cmd-parser.js";
 import {
   moveUpDirectory,
   changeDirectory,
@@ -17,14 +18,11 @@ import { dispatchOSOperation } from "./os-operations.js";
 const handleInvalidInput = () => console.error("Invalid input");
 
 export const dispatchCommand = async (line) => {
-  const args = line
-    .trim()
-    .split(" ")
-    .filter((arg) => arg.length > 0);
+  const [cmd, ...args] = parseLine(line);
 
-  switch (args[0]) {
+  switch (cmd) {
     case "up": {
-      if (args.length !== 1) {
+      if (args.length !== 0) {
         handleInvalidInput();
         break;
       }
@@ -34,17 +32,17 @@ export const dispatchCommand = async (line) => {
     }
 
     case "cd": {
-      if (args.length !== 2) {
+      if (args.length !== 1) {
         handleInvalidInput();
         break;
       }
 
-      changeDirectory(args[1]);
+      changeDirectory(args[0]);
       break;
     }
 
     case "ls": {
-      if (args.length !== 1) {
+      if (args.length !== 0) {
         handleInvalidInput();
         break;
       }
@@ -54,70 +52,70 @@ export const dispatchCommand = async (line) => {
     }
 
     case "cat": {
-      if (args.length !== 2) {
+      if (args.length !== 1) {
         handleInvalidInput();
         break;
       }
 
-      const filePath = path.resolve(process.cwd(), args[1]);
+      const filePath = path.resolve(process.cwd(), args[0]);
       await catFile(filePath);
       break;
     }
 
     case "add": {
-      if (args.length !== 2) {
+      if (args.length !== 1) {
         handleInvalidInput();
         break;
       }
 
-      const filePath = path.resolve(process.cwd(), args[1]);
+      const filePath = path.resolve(process.cwd(), args[0]);
       await createFile(filePath);
       break;
     }
 
     case "rn": {
-      if (args.length !== 3) {
-        handleInvalidInput();
-        break;
-      }
-
-      const srcFilePath = path.resolve(process.cwd(), args[1]);
-      const destFilePath = path.resolve(process.cwd(), args[2]);
-      await renameFile(srcFilePath, destFilePath);
-      break;
-    }
-
-    case "cp": {
-      if (args.length !== 3) {
-        handleInvalidInput();
-        break;
-      }
-
-      const srcFilePath = path.resolve(process.cwd(), args[1]);
-      const destDirPath = path.resolve(process.cwd(), args[2]);
-      await copyFile(srcFilePath, destDirPath);
-      break;
-    }
-
-    case "mv": {
-      if (args.length !== 3) {
-        handleInvalidInput();
-        break;
-      }
-
-      const srcFilePath = path.resolve(process.cwd(), args[1]);
-      const destDirPath = path.resolve(process.cwd(), args[2]);
-      await moveFile(srcFilePath, destDirPath);
-      break;
-    }
-
-    case "rm": {
       if (args.length !== 2) {
         handleInvalidInput();
         break;
       }
 
-      const filePath = path.resolve(process.cwd(), args[1]);
+      const srcFilePath = path.resolve(process.cwd(), args[0]);
+      const destFilePath = path.resolve(process.cwd(), args[1]);
+      await renameFile(srcFilePath, destFilePath);
+      break;
+    }
+
+    case "cp": {
+      if (args.length !== 2) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[0]);
+      const destDirPath = path.resolve(process.cwd(), args[1]);
+      await copyFile(srcFilePath, destDirPath);
+      break;
+    }
+
+    case "mv": {
+      if (args.length !== 2) {
+        handleInvalidInput();
+        break;
+      }
+
+      const srcFilePath = path.resolve(process.cwd(), args[0]);
+      const destDirPath = path.resolve(process.cwd(), args[1]);
+      await moveFile(srcFilePath, destDirPath);
+      break;
+    }
+
+    case "rm": {
+      if (args.length !== 1) {
+        handleInvalidInput();
+        break;
+      }
+
+      const filePath = path.resolve(process.cwd(), args[0]);
       await removeFile(filePath);
       break;
     }
@@ -131,47 +129,47 @@ export const dispatchCommand = async (line) => {
         "--architecture",
       ];
 
-      if (args.length !== 2 || !supportedOperations.includes(args[1])) {
+      if (args.length !== 1 || !supportedOperations.includes(args[0])) {
         handleInvalidInput();
         break;
       }
 
-      dispatchOSOperation(args[1]);
+      dispatchOSOperation(args[0]);
       break;
     }
 
     case "hash": {
-      if (args.length !== 2) {
+      if (args.length !== 1) {
         handleInvalidInput();
         break;
       }
 
-      const filePath = path.resolve(process.cwd(), args[1]);
+      const filePath = path.resolve(process.cwd(), args[0]);
       await calculateHash(filePath);
       break;
     }
 
     case "compress": {
-      if (args.length !== 3) {
+      if (args.length !== 2) {
         handleInvalidInput();
         break;
       }
 
-      const srcFilePath = path.resolve(process.cwd(), args[1]);
-      const destFilePath = path.resolve(process.cwd(), args[2]);
+      const srcFilePath = path.resolve(process.cwd(), args[0]);
+      const destFilePath = path.resolve(process.cwd(), args[1]);
 
       await processFileWithBrotli(srcFilePath, destFilePath, "compress");
       break;
     }
 
     case "decompress": {
-      if (args.length !== 3) {
+      if (args.length !== 2) {
         handleInvalidInput();
         break;
       }
 
-      const srcFilePath = path.resolve(process.cwd(), args[1]);
-      const destFilePath = path.resolve(process.cwd(), args[2]);
+      const srcFilePath = path.resolve(process.cwd(), args[0]);
+      const destFilePath = path.resolve(process.cwd(), args[1]);
 
       await processFileWithBrotli(srcFilePath, destFilePath, "decompress");
       break;
