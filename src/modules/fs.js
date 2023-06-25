@@ -19,7 +19,13 @@ export const moveUpDirectory = () => {
 };
 
 export const changeDirectory = (dirPath) => {
-  process.chdir(dirPath);
+  let dir = dirPath;
+
+  if (process.platform === "win32" && /^[a-zA-Z]:$/.test(dirPath)) {
+    dir = `${dirPath}${path.sep}`;
+  }
+
+  process.chdir(dir);
 };
 
 export const listDirectoryContents = async (dir) => {
