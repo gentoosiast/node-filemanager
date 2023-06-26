@@ -1,6 +1,7 @@
 import fsPromises from "node:fs/promises";
 import path from "node:path";
 import { pipeline } from "node:stream/promises";
+import { assertIsFile } from "./utils.js";
 
 const getDirectoryEntryType = (dirEntry) => {
   if (dirEntry.isFile()) {
@@ -52,11 +53,7 @@ export const createFile = async (filePath) => {
 };
 
 export const removeFile = async (filePath) => {
-  const fileStat = await fsPromises.stat(filePath);
-
-  if (!fileStat.isFile()) {
-    throw new Error();
-  }
+  await assertIsFile(filePath);
 
   await fsPromises.rm(filePath);
 };
