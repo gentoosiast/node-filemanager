@@ -90,6 +90,7 @@ export const copyFile = async (srcFilePath, destDirPath) => {
   let destFh = null;
 
   try {
+    await assertIsFile(srcFilePath);
     await fsPromises.mkdir(destDirPath, { recursive: true });
 
     const destFilePath = path.resolve(destDirPath, path.basename(srcFilePath));
