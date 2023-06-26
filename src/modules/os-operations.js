@@ -15,12 +15,14 @@ export const dispatchOSOperation = (operation) => {
         clockRate: cpuEntry.speed / MHZ_IN_GHZ,
       }));
 
-      console.log(`Total number of CPUs: ${cpuInfo.length}${os.EOL}`);
+      console.log(
+        `Total number of logical CPU cores: ${cpuInfo.length}${os.EOL}`
+      );
 
       cpuInfo.forEach((cpu, idx) => {
-        console.log(`CPU №${idx + 1}`);
-        console.log(`CPU Model: ${cpu.model}`);
-        console.log(`CPU Clock Rate: ${cpu.clockRate} GHz${os.EOL}`);
+        console.log(`CPU Core №${idx + 1}`);
+        console.log(`Model: ${cpu.model}`);
+        console.log(`Clock Rate: ${cpu.clockRate} GHz${os.EOL}`);
       });
       break;
     }
