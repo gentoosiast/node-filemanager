@@ -59,6 +59,7 @@ export const removeFile = async (filePath) => {
 };
 
 export const renameFile = async (srcFilePath, destFilePath) => {
+  await assertIsFile(srcFilePath);
   await fsPromises.rename(srcFilePath, destFilePath);
 };
 
