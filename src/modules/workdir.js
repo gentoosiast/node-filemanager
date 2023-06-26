@@ -1,7 +1,7 @@
-import { homedir } from "node:os";
+import { homedir, EOL } from "node:os";
 
 export const printWorkingDirectory = () => {
-  console.log(`You are currently in ${process.cwd()}`);
+  console.log(`${EOL}You are currently in ${process.cwd()}`);
 };
 
 export const setStartingWorkingDirectory = () => {
