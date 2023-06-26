@@ -1,6 +1,7 @@
 import fsPromises from "node:fs/promises";
 import { pipeline } from "node:stream/promises";
 import { createBrotliCompress, createBrotliDecompress } from "node:zlib";
+import { assertIsFile } from "./utils.js";
 
 export const processFileWithBrotli = async (
   srcFilePath,
@@ -11,6 +12,8 @@ export const processFileWithBrotli = async (
   let destFh = null;
 
   try {
+    await assertIsFile(srcFilePath);
+
     srcFh = await fsPromises.open(srcFilePath);
     destFh = await fsPromises.open(destFilePath, "w");
 

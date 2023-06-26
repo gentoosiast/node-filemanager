@@ -1,3 +1,5 @@
+import fsPromises from "node:fs/promises";
+
 const DEFAULT_USERNAME = "anonymous";
 
 export const getUsernameFromArgs = () => {
@@ -11,3 +13,11 @@ export const getUsernameFromArgs = () => {
 };
 
 export const handleInvalidOperation = () => console.error("Operation failed");
+
+export const assertIsFile = async (filePath) => {
+  const fileStats = await fsPromises.stat(filePath);
+
+  if (!fileStats.isFile()) {
+    throw new Error(`"${filePath}" is not a file`);
+  }
+};
