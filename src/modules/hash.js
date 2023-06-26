@@ -9,7 +9,7 @@ export const calculateHash = async (filePath) => {
     const readStream = fh.createReadStream();
     const hash = createHash("sha256");
 
-    await new Promise((res) => {
+    await new Promise((res, rej) => {
       readStream.on("readable", () => {
         const chunk = readStream.read();
 
@@ -19,6 +19,10 @@ export const calculateHash = async (filePath) => {
           console.log(hash.digest("hex"));
           res();
         }
+      });
+
+      readStream.on("error", (err) => {
+        rej(err);
       });
     });
   } finally {
