@@ -69,15 +69,13 @@ export const catFile = async (filePath) => {
     fh = await fsPromises.open(filePath);
     const readStream = fh.createReadStream({ encoding: "utf8" });
 
-    await new Promise((resolve) => {
+    await new Promise((resolve, reject) => {
       readStream.on("data", (data) => console.log(data));
-      readStream.on("end", async () => {
-        await fh.close();
+      readStream.on("end", () => {
         resolve();
       });
-      readStream.on("error", async () => {
-        await fh.close();
-        throw new Error();
+      readStream.on("error", (err) => {
+        reject(err);
       });
     });
   } finally {
