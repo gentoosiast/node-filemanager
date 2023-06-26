@@ -54,7 +54,6 @@ export const createFile = async (filePath) => {
 
 export const removeFile = async (filePath) => {
   await assertIsFile(filePath);
-
   await fsPromises.rm(filePath);
 };
 
