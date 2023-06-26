@@ -49,7 +49,7 @@ export const listDirectoryContents = async (dir) => {
 };
 
 export const createFile = async (filePath) => {
-  await fsPromises.writeFile(filePath, "");
+  await fsPromises.writeFile(filePath, "", { flag: "wx" });
 };
 
 export const removeFile = async (filePath) => {
